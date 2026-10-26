@@ -1,0 +1,22 @@
+name: Extract ZIP on Push
+on:
+  push:
+    paths:
+      - '**.zip'
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract Archive
+        run: |
+          unzip *.zip
+          rm *.zip
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Automated ZIP extraction"
+          git push origin main
+          
